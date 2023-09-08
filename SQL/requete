@@ -1,0 +1,20 @@
+
+Première partie du test
+
+SELECT date, SUM(prod_price * prod_qty) AS ventes
+FROM TRANSACTIONS
+WHERE date >= '2019-01-01' AND date <= '2019-12-31'
+GROUP BY date
+ORDER BY date;
+
+
+
+Seconde partie du test
+
+SELECT client_id,
+       SUM(CASE WHEN pn.product_type = 'MEUBLE' THEN t.prod_price * t.prod_qty ELSE 0 END) AS ventes_meuble,
+       SUM(CASE WHEN pn.product_type = 'DECO' THEN t.prod_price * t.prod_qty ELSE 0 END) AS ventes_deco
+FROM TRANSACTIONS t
+JOIN PRODUCT_NOMENCLATURE pn ON t.prod_id = pn.product_id
+WHERE t.date >= '2019-01-01' AND t.date <= '2019-12-31'
+GROUP BY client_id;
